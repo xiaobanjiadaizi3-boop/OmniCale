@@ -42,8 +42,8 @@ describe('√8', () => {
     expect(ids(v)).not.toContain('unrationalized');
   });
 
-  it('科学表記と同じになる工学表記は重複させない', () => {
-    expect(get(v, 'scientific')?.display).toBe('2.828427125×10⁰');
+  it('指数が 0 のときは指数表記を出さない（×10⁰ は情報がない）', () => {
+    expect(ids(v)).not.toContain('scientific');
     expect(ids(v)).not.toContain('engineering');
   });
 });
@@ -210,9 +210,18 @@ describe('整数と 0', () => {
     expect(get(exactInt(5n), 'decimal')?.display).toBe('5');
   });
 
+  it('整数に百分率は出さない（14 → 1400% は情報がない）', () => {
+    expect(ids(exactInt(14n))).not.toContain('percent');
+  });
+
   it('0 には指数表記を出さない', () => {
     expect(ids(exactInt(0n))).not.toContain('scientific');
     expect(get(exactInt(0n), 'decimal')?.display).toBe('0');
+  });
+
+  it('桁の大きい整数には指数表記が出る', () => {
+    expect(get(exactRational(rat(123456n)), 'scientific')?.display).toBe('1.23456×10⁵');
+    expect(get(exactRational(rat(123456n)), 'engineering')?.display).toBe('123.456×10³');
   });
 });
 

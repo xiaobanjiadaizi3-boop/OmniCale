@@ -172,6 +172,10 @@ export function mulExact(x: Exact, y: Exact): Exact | null {
     const b = ratAdd(ratMul(x.a, y.b), ratMul(y.a, x.b));
     return makeRadical(a, b, x.c);
   }
+  if (x.kind === 'radical' && y.kind === 'radical' && isZero(x.a) && isZero(y.a)) {
+    // 根号どうしは中身を掛けられる: (b₁√c₁)(b₂√c₂) = b₁b₂√(c₁c₂)
+    return makeRadical(ZERO, ratMul(x.b, y.b), x.c * y.c);
+  }
   return null;
 }
 

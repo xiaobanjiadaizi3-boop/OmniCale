@@ -125,13 +125,16 @@ export function representations(
       }
     }
 
-    const pct = ratMul(r, rat(100n));
-    const pctPlaces = terminatingDecimalPlaces(pct);
-    push(
-      'percent',
-      `${formatRationalDecimal(pct, decimalDigits)}%`,
-      pctPlaces !== null && pctPlaces <= decimalDigits,
-    );
+    // 整数の百分率 (14 → 1400%) は情報がないので出さない
+    if (r.d !== 1n) {
+      const pct = ratMul(r, rat(100n));
+      const pctPlaces = terminatingDecimalPlaces(pct);
+      push(
+        'percent',
+        `${formatRationalDecimal(pct, decimalDigits)}%`,
+        pctPlaces !== null && pctPlaces <= decimalDigits,
+      );
+    }
   }
 
   // --- 二次無理数固有 ---
@@ -187,9 +190,10 @@ export function representations(
     }
   }
 
-  // --- 指数表記（全種類共通。0 のときは指数が定まらないので出さない） ---
+  // --- 指数表記 ---
+  // 値が 0 のときは指数が定まらない。指数が 0 のとき (×10⁰) は情報がないので出さない。
   const sci = toScientific(value, significantDigits);
-  if (sci !== null) {
+  if (sci !== null && sci.exponent !== 0) {
     const sigExact = decimalIsExact(value, Math.max(0, significantDigits - 1 - sci.exponent));
     push('scientific', `${sci.mantissa}×10${superscript(sci.exponent)}`, sigExact);
     const eng = toEngineering(value, significantDigits);
