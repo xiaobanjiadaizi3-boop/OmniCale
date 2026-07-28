@@ -50,7 +50,8 @@ function render(e: Expr): string {
       return e.name;
 
     case 'neg':
-      return `-${printExpr(e.operand, PREC.neg)}`;
+      // -a/b は (-a)/b と同じ値なので、分数に括弧は要らない
+      return `-${printExpr(e.operand, PREC.mul)}`;
 
     case 'add':
       return e.terms

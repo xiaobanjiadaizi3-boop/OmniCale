@@ -14,6 +14,7 @@ export * from './numeric/decimal.js';
 export * from './numeric/continuedFraction.js';
 export * from './representation/index.js';
 export * from './expr/ast.js';
+export * from './expr/fromExact.js';
 export * from './expr/tokenize.js';
 export * from './expr/parse.js';
 export * from './expr/print.js';

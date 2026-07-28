@@ -4,7 +4,7 @@
 
 **公開先: https://xiaobanjiadaizi3-boop.github.io/OmniCale/**
 
-現在 **Phase 2（式の入力と評価）** まで実装済み。設計と全体計画は [`docs/design.md`](docs/design.md) を参照。
+現在 **Phase 3（電卓 UI）** まで実装済み。キーパッドで打った式と結果が、分数は上下に積まれ √ は横線が伸びる 2 次元表示で出る。設計と全体計画は [`docs/design.md`](docs/design.md) を参照。
 
 ## 構成
 
